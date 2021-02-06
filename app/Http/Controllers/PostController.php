@@ -24,4 +24,47 @@ class PostController extends Controller
 
         return view('index', ['posts' => $posts]);
     }
+
+    public function create()
+    {
+        return view('form');
+    }
+
+    public function send(Request $request)
+    {
+        $url = 'https://qiita.com/api/v2/items';
+        $mthod = "POST";
+        $token = env('QIITA_TOKEN_NO');
+
+        $data = array(
+            "title" => $request->title,
+            "body" => $request->body,
+            "private" => $request->private === 'private' ? true : false,
+            "tags" => [
+                [
+                    'name' => $request->tag,
+                ]
+            ],
+        );
+
+        $client = new Client();
+
+        $options = [
+            'json' => $data,
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json',
+            ]
+        ];
+
+        $response = $client->request($mthod, $url, $options);
+
+        $post = $response->getBody();
+        $post = json_decode($post, true);
+
+        // レスポンスから新規記事のURLを取得
+        $new_post_url = $post['url'];
+
+        return redirect('/create')->with('flash_message', '<a href=' . $new_post_url . '>記事</a>を投稿しました');
+    }
 }

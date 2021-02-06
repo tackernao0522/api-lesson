@@ -9,4 +9,6 @@
 |        | GET|HEAD | _debugbar/open                | debugbar.openhandler  | Barryvdh\Debugbar\Controllers\OpenHandlerController@handle    | Barryvdh\Debugbar\Middleware\DebugbarEnabled,Closure |
 |        | GET|HEAD | _debugbar/telescope/{id}      | debugbar.telescope    | Barryvdh\Debugbar\Controllers\TelescopeController@show        | Barryvdh\Debugbar\Middleware\DebugbarEnabled,Closure |
 |        | GET|HEAD | api/user                      |                       | Closure                                                       | api,auth:api                                         |
+|        | GET|HEAD | create                        | post.create           | App\Http\Controllers\PostController@create                    | web                                                  |
+|        | POST     | send                          | post.send             | App\Http\Controllers\PostController@send                      | web                                                  |
 +--------+----------+-------------------------------+-----------------------+---------------------------------------------------------------+------------------------------------------------------+
